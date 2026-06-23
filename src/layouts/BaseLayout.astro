@@ -1,0 +1,56 @@
+﻿---
+import "../styles/global.css";
+
+const {
+  title = "The Diva Shopper",
+  description = "Simple shopping guides and diva-approved finds.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+
+    <script is:inline>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll("[data-blog-search]").forEach(function (input) {
+          var targetSelector = input.getAttribute("data-target");
+          var target = document.querySelector(targetSelector);
+          if (!target) return;
+
+          var cards = target.querySelectorAll("[data-blog-card]");
+          var empty = target.querySelector("[data-empty]");
+
+          input.addEventListener("input", function () {
+            var query = input.value.toLowerCase().trim();
+            var visibleCount = 0;
+
+            cards.forEach(function (card) {
+              var text = (
+                card.getAttribute("data-title") +
+                " " +
+                card.getAttribute("data-description")
+              ).toLowerCase();
+
+              var shouldShow = text.includes(query);
+              card.style.display = shouldShow ? "" : "none";
+
+              if (shouldShow) visibleCount++;
+            });
+
+            if (empty) {
+              empty.hidden = visibleCount !== 0;
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

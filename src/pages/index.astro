@@ -1,49 +1,75 @@
----
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+﻿---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import BlogCard from "../components/BlogCard.astro";
+
+const modules = import.meta.glob("../content/blog/*.md", { eager: true });
+
+const posts = Object.entries(modules)
+  .map(([path, post]) => {
+    const slug = path.split("/").pop().replace(".md", "");
+    return {
+      slug,
+      ...post.frontmatter,
+    };
+  })
+  .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+const latestPosts = posts.slice(0, 6);
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<BaseLayout
+  title="The Diva Shopper | Cute Finds, Beauty Picks & Fashion Favorites"
+  description="Simple shopping guides and diva-approved finds for beauty, fashion, Amazon finds, and other girly products."
+>
+  <Header />
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <p class="eyebrow">Diva-approved finds</p>
+        <h1>Cute Finds, Beauty Picks & Fashion Favorites</h1>
+        <p class="hero-text">
+          Simple shopping guides and diva-approved finds for beauty, fashion,
+          Amazon finds, and other girly products.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="/blog">Read the Blog</a>
+          <a class="btn secondary" href="#latest">Latest Posts</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="latest" class="section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Latest</p>
+          <h2>Latest Blogs</h2>
+          <p>Search or browse the newest guides from The Diva Shopper.</p>
+        </div>
+
+        <div class="search-wrap">
+          <input
+            type="search"
+            placeholder="Search blogs..."
+            data-blog-search
+            data-target="#home-blog-grid"
+          />
+        </div>
+
+        <div id="home-blog-grid" class="blog-grid">
+          {latestPosts.map((post) => <BlogCard post={post} />)}
+          <p class="empty-message" data-empty hidden>No matching blogs found.</p>
+        </div>
+
+        <div class="center">
+          <a class="btn primary" href="/blog">View All Blogs</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

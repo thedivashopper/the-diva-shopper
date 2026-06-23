@@ -1,0 +1,33 @@
+﻿---
+const { product, index } = Astro.props;
+
+const name = product.name || "Product Name";
+const description = product.description || "Add a short product description here.";
+const image = product.image || "";
+const affiliateLink = product.affiliateLink || "#";
+const buttonText = product.buttonText || "Buy Now";
+---
+
+<section class="product-row">
+  <div class="product-copy">
+    <h2>{index}. {name}</h2>
+    <p>{description}</p>
+
+    <a
+      class="product-button"
+      href={affiliateLink}
+      target="_blank"
+      rel="nofollow sponsored noopener"
+    >
+      {buttonText}
+    </a>
+  </div>
+
+  <div class="product-photo">
+    {
+      image
+        ? <img src={image} alt={name} />
+        : <div class="product-placeholder">Product Image</div>
+    }
+  </div>
+</section>

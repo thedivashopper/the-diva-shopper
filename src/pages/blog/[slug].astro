@@ -1,0 +1,62 @@
+﻿---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import AffiliateDisclosure from "../../components/AffiliateDisclosure.astro";
+import ProductRow from "../../components/ProductRow.astro";
+
+export function getStaticPaths() {
+  const blogModules = import.meta.glob("../../content/blog/*.md", { eager: true });
+
+  return Object.entries(blogModules).map(([path, post]) => {
+    const slug = path.split("/").pop().replace(".md", "");
+
+    return {
+      params: { slug },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const frontmatter = post.frontmatter;
+const products = Array.isArray(frontmatter.products) ? frontmatter.products : [];
+
+const formattedDate = frontmatter.date
+  ? new Date(frontmatter.date).toLocaleDateString("en", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })
+  : "";
+
+const intro = frontmatter.intro || frontmatter.description;
+---
+
+<BaseLayout
+  title={`${frontmatter.title} | The Diva Shopper`}
+  description={frontmatter.description}
+>
+  <Header />
+
+  <main>
+    <article class="post">
+      <div class="container post-container">
+        <a class="back-link" href="/blog">â† Back to Blog</a>
+
+        <AffiliateDisclosure />
+
+        <p class="blog-date">{formattedDate}</p>
+        <h1>{frontmatter.title}</h1>
+
+        <p class="post-intro">{intro}</p>
+
+        <div class="product-list">
+          {products.map((product, index) => <ProductRow product={product} index={index + 1} />)}
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>

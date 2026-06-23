@@ -1,0 +1,23 @@
+﻿---
+title: "5 Unique Girly Finds on Amazon Every Diva Will Love"
+description: "A simple roundup of cute and useful Amazon finds for girls who love beauty, fashion, and aesthetic everyday products."
+date: "2026-06-15"
+image: ""
+intro: "Finding cute products online can take a lot of time. This quick guide keeps things simple with girly Amazon finds that are useful, pretty, and easy to add to your daily routine."
+products:
+  - name: "Pink Makeup Organizer"
+    description: "A cute vanity organizer for makeup, brushes, skincare bottles, and everyday beauty essentials. It helps keep your table clean while adding a soft feminine look to your room."
+    image: ""
+    affiliateLink: "#"
+    buttonText: "Buy Now"
+  - name: "Mini LED Vanity Mirror"
+    description: "A small mirror with lights that works well for makeup touch-ups, skincare, and quick getting-ready moments. It is a simple product that feels both practical and aesthetic."
+    image: ""
+    affiliateLink: "#"
+    buttonText: "Buy Now"
+  - name: "Cute Travel Makeup Bag"
+    description: "A soft travel pouch for makeup, brushes, lip products, and tiny beauty items. It is useful for college, travel, sleepovers, or keeping your daily products in one place."
+    image: ""
+    affiliateLink: "#"
+    buttonText: "Buy Now"
+---
